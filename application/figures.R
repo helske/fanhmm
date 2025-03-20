@@ -32,7 +32,7 @@ marginals$state |>
   xlab("Year of birth") + 
   scale_x_continuous(breaks = 2010:2017, labels = 2010:2017, minor_breaks = NULL) +
   scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
-ggsave( "figures/yearly_state_predictions.pdf", width = 6.5, height = 4)
+ggsave( "figures/yearly_states.pdf", width = 6.5, height = 4)
 
 marginals$emission |> 
   mutate(leave = factor(observation, levels = c("No leave", "Paternity leave", "At least father's quota"))) |> 
@@ -44,7 +44,20 @@ marginals$emission |>
   xlab("Year of birth") +
   facet_wrap(~ state) +
   scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
-ggsave( "figures/yearly_emission_predictions.pdf", width = 6.5, height = 4)
+ggsave( "figures/yearly_emissions.pdf", width = 6.5, height = 4)
+
+# Figures for the supplement
+
+marginals$transition |> 
+  ggplot(aes(year, probability)) +
+  geom_ribbon(aes(ymin = q2.5, ymax = q97.5, fill = state), alpha = 0.2) +
+  geom_line(aes(linetype = state)) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1), labels = seq(0, 1, by = 0.1)) +
+  ylab("Marginal state probabilities") +
+  xlab("Year of birth") + 
+  scale_x_continuous(breaks = 2010:2017, labels = 2010:2017, minor_breaks = NULL) +
+  scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
+ggsave( "figures/yearly_transition_predictions.pdf", width = 6.5, height = 4)
 
 ace$state |> filter(rank <= 10) |> 
   ggplot(aes(rank, probability)) +
