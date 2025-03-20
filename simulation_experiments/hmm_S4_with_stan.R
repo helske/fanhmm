@@ -99,22 +99,12 @@ S <- 3
 fit_S3 <- model$sample(
   data = stan_data_S3, 
   chains = 16, parallel_chains = 16, 
-  init = init_function, refresh = 1000
+  init = init_function, refresh = 0
 )
 
 print(
-  lp_allchains_3 <- fit_S3$draws("lp__") |> 
+  results_S3 <- fit_S3$draws(c("lp__", "max_A")) |> 
     summarise_draws()
-)
-print(
-  lp_separatechains_3 <- apply(fit_S3$draws("lp__"), 2, summarise_draws)
-)
-print(
-  max_A_allchains_3 <- fit_S3$draws("max_A") |> 
-    summarise_draws()
-)
-print(
-  max_A_separatechains_3 <- apply(fit_S3$draws("max_A"), 2, summarise_draws)
 )
 print(
   times_3 <- fit_S3$time()
@@ -123,22 +113,12 @@ S <- 4
 fit_S4 <- model$sample(
   data = stan_data_S4, 
   chains = 16, parallel_chains = 16, 
-  init = init_function, refresh = 1000
+  init = init_function, refresh = 0
 )
 
 print(
-  lp_allchains_4 <- fit_S4$draws("lp__") |> 
+  results_S4 <- fit_S4$draws(c("lp__", "max_A")) |> 
     summarise_draws()
-)
-print(
-  lp_separatechains_4 <- apply(fit_S4$draws("lp__"), 2, summarise_draws))
-
-print(
-  max_A_allchains_4 <- fit_S4$draws("max_A") |> 
-    summarise_draws()
-)
-print(
-  max_A_separatechains_4 <- apply(fit_S4$draws("max_A"), 2, summarise_draws)
 )
 print(
   times_4 <- fit_S4$time()
@@ -147,30 +127,19 @@ S <- 5
 fit_S5 <- model$sample(
   data = stan_data_S5, 
   chains = 16, parallel_chains = 16, 
-  init = init_function, refresh = 1000
+  init = init_function, refresh = 0
 )
 
 print(
-  lp_allchains_5 <- fit_S5$draws("lp__") |> 
+  results_S5 <- fit_S5$draws(c("lp__", "max_A")) |> 
     summarise_draws()
-)
-print(
-  lp_separatechains_5 <- apply(fit_S5$draws("lp__"), 2, summarise_draws)
-)
-print(
-  max_A_allchains_5 <- fit_S5$draws("max_A") |> 
-    summarise_draws()
-)
-print(
-  max_A_separatechains_5 <- apply(fit_S5$draws("max_A"), 2, summarise_draws)
 )
 print(
   times_5 <- fit_S5$time()
 )
 
 save(list = c(
-  ls(pattern = "lp_"), 
-  ls(pattern = "max_A"), 
+  ls(pattern = "results_"), 
   ls(pattern = "times_")
 ), 
 file = "hmm_4_bayes_results.rds")
